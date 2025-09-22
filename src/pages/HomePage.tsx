@@ -25,9 +25,9 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50 pb-8">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4">
+      <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}

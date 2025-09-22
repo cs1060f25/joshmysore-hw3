@@ -22,9 +22,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50 pb-8">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4">
+      <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

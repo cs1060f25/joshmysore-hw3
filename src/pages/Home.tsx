@@ -5,7 +5,7 @@ import { useAppStore } from '../lib/store';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Checkbox } from '../components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
+import { RadioGroupItem } from '../components/ui/radio-group';
 import { Label } from '../components/ui/label';
 import { ArrowRight, CheckCircle, RotateCcw } from 'lucide-react';
 
@@ -89,7 +89,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-red-50 pb-8">
       {/* Header */}
       <div className="text-center py-16 px-4">
         <motion.h1 
@@ -194,21 +194,24 @@ export default function Home() {
                 >
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">What kind of impact do you want?</h2>
                   <p className="text-gray-600 mb-6">Choose your preferred approach to political giving.</p>
-                  <RadioGroup value={preferences.impact} onValueChange={handleImpactChange}>
-                    <div className="space-y-4">
-                      {IMPACT_OPTIONS.map((option) => (
-                        <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value={option.id} id={option.id} />
-                          <div className="flex-1">
-                            <Label htmlFor={option.id} className="text-lg font-medium cursor-pointer">
-                              {option.label}
-                            </Label>
-                            <p className="text-gray-600 mt-1">{option.description}</p>
-                          </div>
+                  <div className="space-y-4">
+                    {IMPACT_OPTIONS.map((option) => (
+                      <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">
+                        <RadioGroupItem 
+                          value={option.id} 
+                          id={option.id}
+                          checked={preferences.impact === option.id}
+                          onChange={() => handleImpactChange(option.id)}
+                        />
+                        <div className="flex-1">
+                          <Label htmlFor={option.id} className="text-lg font-medium cursor-pointer">
+                            {option.label}
+                          </Label>
+                          <p className="text-gray-600 mt-1">{option.description}</p>
                         </div>
-                      ))}
-                    </div>
-                  </RadioGroup>
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               )}
 
@@ -224,25 +227,29 @@ export default function Home() {
                 >
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">What's your donation strategy?</h2>
                   <p className="text-gray-600 mb-6">Choose how you'd like to distribute your political donations.</p>
-                  <RadioGroup value={preferences.strategy} onValueChange={handleStrategyChange}>
-                    <div className="space-y-4">
-                      {STRATEGY_OPTIONS.map((option) => (
-                        <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value={option.id} id={option.id} />
-                          <div className="flex-1">
-                            <Label htmlFor={option.id} className="text-lg font-medium cursor-pointer">
-                              {option.label}
-                            </Label>
-                            <p className="text-gray-600 mt-1">{option.description}</p>
-                          </div>
+                  <div className="space-y-4">
+                    {STRATEGY_OPTIONS.map((option) => (
+                      <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">
+                        <RadioGroupItem 
+                          value={option.id} 
+                          id={option.id}
+                          checked={preferences.strategy === option.id}
+                          onChange={() => handleStrategyChange(option.id)}
+                        />
+                        <div className="flex-1">
+                          <Label htmlFor={option.id} className="text-lg font-medium cursor-pointer">
+                            {option.label}
+                          </Label>
+                          <p className="text-gray-600 mt-1">{option.description}</p>
                         </div>
-                      ))}
-                    </div>
-                  </RadioGroup>
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
 
           {/* Navigation */}
           <div className="flex justify-between mt-8">

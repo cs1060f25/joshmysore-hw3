@@ -36,6 +36,7 @@ interface CandidateCardProps {
 }
 
 export default function CandidateCard({ candidate, onDonate, onViewDetails }: CandidateCardProps) {
+
   const leverageColors: Record<string, string> = {
     high: 'bg-red-100 text-red-800',
     'med-high': 'bg-orange-100 text-orange-800',
