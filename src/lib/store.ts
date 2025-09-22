@@ -3,15 +3,18 @@ import { persist } from 'zustand/middleware';
 
 export interface UserPreferences {
   issues: string[];
-  impact: string[];
-  strategy: "single" | "spread";
+  impact: "close" | "track" | "infra" | undefined;
+  strategy: "single" | "spread" | undefined;
 }
 
 interface AppState {
   preferences: UserPreferences;
   currentStep: number;
   selectedCandidates: string[];
-  setPreferences: (preferences: Partial<UserPreferences>) => void;
+  setIssues: (issues: string[]) => void;
+  toggleIssue: (issue: string) => void;
+  setImpact: (impact: "close" | "track" | "infra" | undefined) => void;
+  setStrategy: (strategy: "single" | "spread" | undefined) => void;
   setCurrentStep: (step: number) => void;
   setSelectedCandidates: (candidates: string[]) => void;
   reset: () => void;
@@ -19,8 +22,8 @@ interface AppState {
 
 const defaultPreferences: UserPreferences = {
   issues: [],
-  impact: [],
-  strategy: "single"
+  impact: undefined,
+  strategy: undefined
 };
 
 export const useAppStore = create<AppState>()(
@@ -29,17 +32,34 @@ export const useAppStore = create<AppState>()(
       preferences: defaultPreferences,
       currentStep: 0,
       selectedCandidates: [],
-      setPreferences: (newPreferences) =>
-        set((state) => ({
-          preferences: { ...state.preferences, ...newPreferences }
-        })),
+      setIssues: (issues) => set((state) => ({
+        preferences: { ...state.preferences, issues }
+      })),
+      toggleIssue: (issue) => set((state) => ({
+        preferences: {
+          ...state.preferences,
+          issues: state.preferences.issues.includes(issue)
+            ? state.preferences.issues.filter(i => i !== issue)
+            : [...state.preferences.issues, issue]
+        }
+      })),
+      setImpact: (impact) => set((state) => ({
+        preferences: { ...state.preferences, impact }
+      })),
+      setStrategy: (strategy) => set((state) => ({
+        preferences: { ...state.preferences, strategy }
+      })),
       setCurrentStep: (step) => set({ currentStep: step }),
       setSelectedCandidates: (candidates) => set({ selectedCandidates: candidates }),
-      reset: () => set({
-        preferences: defaultPreferences,
-        currentStep: 0,
-        selectedCandidates: []
-      })
+      reset: () => {
+        // Clear localStorage and reset to defaults
+        localStorage.removeItem('donate-impact-store');
+        set({
+          preferences: defaultPreferences,
+          currentStep: 0,
+          selectedCandidates: []
+        });
+      }
     }),
     {
       name: 'donate-impact-store',

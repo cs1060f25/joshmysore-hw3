@@ -1,6 +1,6 @@
-# Donate Impact
+# ScaleTilt
 
-A comprehensive political donation prototype built with Vite + React + TypeScript. This application helps users find the most impactful candidates for their political donations based on their priorities and preferences.
+A modern political donation platform that helps users find the most impactful candidates for their political donations based on data-driven analysis and their personal priorities.
 
 **Developer:** Josh Mysore  
 **GitHub:** [cs1060f25](https://github.com/cs1060f25)  
@@ -9,11 +9,14 @@ A comprehensive political donation prototype built with Vite + React + TypeScrip
 
 ## Features
 
-- **3-Step Wizard**: Select issues, impact preferences, and donation strategy
-- **Smart Scoring**: Algorithm-based candidate ranking using competitiveness, funding gaps, time decay, and issue alignment
+- **Modern Homepage**: Hero section with animated demo simulation and clear value proposition
+- **About Page**: Comprehensive explanation of the problem, solution, and our goals
+- **Interactive Demo**: 3-step wizard for selecting issues, impact preferences, and donation strategy
+- **Smart Scoring**: Dynamic algorithm that adjusts weights based on user preferences
 - **Candidate Details**: Comprehensive profiles with polling data, funding information, and district analysis
 - **Donation Confirmation**: Support for both single high-impact and spread strategies
-- **Modern UI**: Clean red-white-blue design with smooth animations
+- **Responsive Design**: Mobile-first design with desktop enhancements
+- **Smooth Animations**: Framer Motion animations throughout the user experience
 
 ## Getting Started
 

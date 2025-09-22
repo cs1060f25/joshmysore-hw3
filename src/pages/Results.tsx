@@ -130,13 +130,11 @@ export default function Results() {
 
                 <div>
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Impact Focus</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {preferences.impact.map(impact => (
-                      <Badge key={impact} variant="outline" className="text-xs">
-                        {impact}
-                      </Badge>
-                    ))}
-                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    {preferences.impact === 'close' ? 'Close races' : 
+                     preferences.impact === 'track' ? 'Track record' : 
+                     preferences.impact === 'infra' ? 'Long-term infrastructure' : 'Not selected'}
+                  </Badge>
                 </div>
 
                 <div>

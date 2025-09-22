@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAppStore } from '../lib/store';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { Label } from '../components/ui/label';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, RotateCcw } from 'lucide-react';
 
 const ISSUES = [
   { id: 'climate', label: 'Climate & Environment' },
@@ -19,9 +19,9 @@ const ISSUES = [
 ];
 
 const IMPACT_OPTIONS = [
-  { id: 'close-races', label: 'Close races' },
-  { id: 'track-record', label: 'Track record' },
-  { id: 'long-term', label: 'Long-term infrastructure' }
+  { id: 'close', label: 'Support candidates in close races', description: 'Focus on competitive races where every vote counts' },
+  { id: 'track', label: 'Support candidates with track records', description: 'Support candidates with proven records on your issues' },
+  { id: 'infra', label: 'Build long-term movement infrastructure', description: 'Invest in building lasting political infrastructure' }
 ];
 
 const STRATEGY_OPTIONS = [
@@ -31,36 +31,27 @@ const STRATEGY_OPTIONS = [
 
 export default function Home() {
   const navigate = useNavigate();
-  const { preferences, setPreferences, currentStep, setCurrentStep } = useAppStore();
-  const [localIssues, setLocalIssues] = useState<string[]>(preferences.issues);
-  const [localImpact, setLocalImpact] = useState<string[]>(preferences.impact);
-  const [localStrategy, setLocalStrategy] = useState<string>(preferences.strategy);
+  const { 
+    preferences, 
+    currentStep, 
+    setCurrentStep, 
+    toggleIssue, 
+    setImpact, 
+    setStrategy, 
+    reset 
+  } = useAppStore();
 
-  const handleIssueChange = (issueId: string, checked: boolean) => {
-    if (checked) {
-      setLocalIssues([...localIssues, issueId]);
-    } else {
-      setLocalIssues(localIssues.filter(id => id !== issueId));
-    }
-  };
-
-  const handleImpactChange = (impactId: string, checked: boolean) => {
-    if (checked) {
-      setLocalImpact([...localImpact, impactId]);
-    } else {
-      setLocalImpact(localImpact.filter(id => id !== impactId));
-    }
-  };
+  // Reset store on page load to ensure fresh start
+  useEffect(() => {
+    reset();
+  }, [reset]);
 
   const handleNext = () => {
     if (currentStep === 0) {
-      setPreferences({ issues: localIssues });
       setCurrentStep(1);
     } else if (currentStep === 1) {
-      setPreferences({ impact: localImpact });
       setCurrentStep(2);
     } else if (currentStep === 2) {
-      setPreferences({ strategy: localStrategy as "single" | "spread" });
       navigate('/results');
     }
   };
@@ -72,10 +63,23 @@ export default function Home() {
   };
 
   const canProceed = () => {
-    if (currentStep === 0) return localIssues.length > 0;
-    if (currentStep === 1) return localImpact.length > 0;
-    if (currentStep === 2) return localStrategy !== '';
+    if (currentStep === 0) return preferences.issues.length >= 1;
+    if (currentStep === 1) return preferences.impact !== undefined;
+    if (currentStep === 2) return preferences.strategy !== undefined;
     return false;
+  };
+
+  const handleStartOver = () => {
+    reset();
+    setCurrentStep(0);
+  };
+
+  const handleImpactChange = (value: string) => {
+    setImpact(value as "close" | "track" | "infra");
+  };
+
+  const handleStrategyChange = (value: string) => {
+    setStrategy(value as "single" | "spread");
   };
 
   const stepVariants = {
@@ -86,7 +90,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-red-50">
-      {/* Hero Section */}
+      {/* Header */}
       <div className="text-center py-16 px-4">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
@@ -94,16 +98,33 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="text-5xl font-bold text-gray-900 mb-6"
         >
-          Make your political dollars count.
+          ScaleTilt Demo
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xl text-gray-600 max-w-2xl mx-auto"
+          className="text-xl text-gray-600 max-w-2xl mx-auto mb-8"
         >
           Find the candidates where your donation will have the most impact on the issues you care about.
         </motion.p>
+        
+        {/* Start Over Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex justify-center mb-8"
+        >
+          <Button
+            variant="outline"
+            onClick={handleStartOver}
+            className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-900 font-semibold px-6 py-3 rounded-2xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Start Over
+          </Button>
+        </motion.div>
       </div>
 
       {/* Wizard */}
@@ -149,8 +170,8 @@ export default function Home() {
                       <div key={issue.id} className="flex items-center space-x-3">
                         <Checkbox
                           id={issue.id}
-                          checked={localIssues.includes(issue.id)}
-                          onCheckedChange={(checked) => handleIssueChange(issue.id, checked as boolean)}
+                          checked={preferences.issues.includes(issue.id)}
+                          onCheckedChange={() => toggleIssue(issue.id)}
                         />
                         <Label htmlFor={issue.id} className="text-lg cursor-pointer">
                           {issue.label}
@@ -173,20 +194,21 @@ export default function Home() {
                 >
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">What kind of impact do you want?</h2>
                   <p className="text-gray-600 mb-6">Choose your preferred approach to political giving.</p>
-                  <div className="space-y-4">
-                    {IMPACT_OPTIONS.map((option) => (
-                      <div key={option.id} className="flex items-center space-x-3">
-                        <Checkbox
-                          id={option.id}
-                          checked={localImpact.includes(option.id)}
-                          onCheckedChange={(checked) => handleImpactChange(option.id, checked as boolean)}
-                        />
-                        <Label htmlFor={option.id} className="text-lg cursor-pointer">
-                          {option.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
+                  <RadioGroup value={preferences.impact} onValueChange={handleImpactChange}>
+                    <div className="space-y-4">
+                      {IMPACT_OPTIONS.map((option) => (
+                        <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value={option.id} id={option.id} />
+                          <div className="flex-1">
+                            <Label htmlFor={option.id} className="text-lg font-medium cursor-pointer">
+                              {option.label}
+                            </Label>
+                            <p className="text-gray-600 mt-1">{option.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </RadioGroup>
                 </motion.div>
               )}
 
@@ -202,7 +224,7 @@ export default function Home() {
                 >
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">What's your donation strategy?</h2>
                   <p className="text-gray-600 mb-6">Choose how you'd like to distribute your political donations.</p>
-                  <RadioGroup value={localStrategy} onValueChange={setLocalStrategy}>
+                  <RadioGroup value={preferences.strategy} onValueChange={handleStrategyChange}>
                     <div className="space-y-4">
                       {STRATEGY_OPTIONS.map((option) => (
                         <div key={option.id} className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-gray-50">

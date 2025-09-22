@@ -21,8 +21,8 @@ export interface Candidate {
 
 export interface UserPreferences {
   issues: string[];
-  impact: string[];
-  strategy: "single" | "spread";
+  impact: "close" | "track" | "infra" | undefined;
+  strategy: "single" | "spread" | undefined;
 }
 
 export function computeScore(candidate: Candidate, preferences: UserPreferences): number {
@@ -46,12 +46,38 @@ export function computeScore(candidate: Candidate, preferences: UserPreferences)
   const issueOverlap = selectedIssues.filter(issue => candidateIssues.includes(issue)).length;
   const issueMatch = selectedIssues.length > 0 ? issueOverlap / Math.max(selectedIssues.length, 1) : 0;
 
-  // Final score calculation
+  // Dynamic weight adjustment based on impact preference
+  let weights = {
+    competitiveness: 0.35,
+    fundingGap: 0.35,
+    timeDecay: 0.15,
+    issueMatch: 0.15
+  };
+
+  // Adjust weights based on impact preference
+  if (preferences.impact === 'close') {
+    weights.competitiveness = 0.5;
+    weights.fundingGap = 0.3;
+    weights.timeDecay = 0.1;
+    weights.issueMatch = 0.1;
+  } else if (preferences.impact === 'track') {
+    weights.competitiveness = 0.25;
+    weights.fundingGap = 0.25;
+    weights.timeDecay = 0.15;
+    weights.issueMatch = 0.35;
+  } else if (preferences.impact === 'infra') {
+    weights.competitiveness = 0.25;
+    weights.fundingGap = 0.2;
+    weights.timeDecay = 0.4;
+    weights.issueMatch = 0.15;
+  }
+
+  // Final score calculation with dynamic weights
   const score = 
-    0.35 * competitivenessWeight +
-    0.35 * fundingGap +
-    0.15 * timeDecay +
-    0.15 * issueMatch;
+    weights.competitiveness * competitivenessWeight +
+    weights.fundingGap * fundingGap +
+    weights.timeDecay * timeDecay +
+    weights.issueMatch * issueMatch;
 
   return Math.round(score * 100) / 100; // Round to 2 decimal places
 }
