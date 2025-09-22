@@ -19,7 +19,7 @@ export default function Confirm() {
   const { data: candidates = [] } = useQuery({
     queryKey: ['candidates'],
     queryFn: async () => {
-      const response = await fetch('/src/data/candidates.json');
+      const response = await fetch('/data/candidates.json');
       return response.json();
     }
   });
