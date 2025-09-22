@@ -7,11 +7,9 @@ import { computeScore } from '../lib/scoring';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { ArrowLeft, Info, ExternalLink } from 'lucide-react';
+import { Dialog, DialogTrigger } from '../components/ui/dialog';
+import { ArrowLeft, Info } from 'lucide-react';
 import CandidateCard from '../components/CandidateCard';
-import ScoreBadge from '../components/ScoreBadge';
-import IssuePills from '../components/IssuePills';
 import ScoringDialog from '../components/ScoringDialog';
 
 export default function Results() {
@@ -29,11 +27,11 @@ export default function Results() {
 
   const scoredCandidates = useMemo(() => {
     return candidates
-      .map(candidate => ({
+      .map((candidate: any) => ({
         ...candidate,
         score: computeScore(candidate, preferences)
       }))
-      .sort((a, b) => b.score - a.score);
+      .sort((a: any, b: any) => b.score - a.score);
   }, [candidates, preferences]);
 
   const handleDonate = (candidateId: string) => {
@@ -42,7 +40,7 @@ export default function Results() {
       navigate('/confirm');
     } else {
       // For spread strategy, select top 3
-      const topCandidates = scoredCandidates.slice(0, 3).map(c => c.id);
+      const topCandidates = scoredCandidates.slice(0, 3).map((c: any) => c.id);
       setSelectedCandidates(topCandidates);
       navigate('/confirm');
     }
@@ -178,7 +176,7 @@ export default function Results() {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
               >
-                {scoredCandidates.map((candidate, index) => (
+                {scoredCandidates.map((candidate: any) => (
                   <motion.div key={candidate.id} variants={itemVariants}>
                     <CandidateCard
                       candidate={candidate}

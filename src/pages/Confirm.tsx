@@ -6,7 +6,7 @@ import { computeScore } from '../lib/scoring';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { ArrowLeft, ExternalLink, Download, DollarSign } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Download } from 'lucide-react';
 import ScoreBadge from '../components/ScoreBadge';
 import IssuePills from '../components/IssuePills';
 import FundingBar from '../components/FundingBar';
@@ -24,7 +24,7 @@ export default function Confirm() {
     }
   });
 
-  const selectedCandidatesData = candidates.filter(c => selectedCandidates.includes(c.id));
+  const selectedCandidatesData = candidates.filter((c: any) => selectedCandidates.includes(c.id));
   const isSpreadStrategy = preferences.strategy === 'spread';
   const donationAmount = 50;
   const amountPerCandidate = isSpreadStrategy ? Math.floor(donationAmount / selectedCandidatesData.length) : donationAmount;
@@ -36,7 +36,7 @@ export default function Confirm() {
   };
 
   const handleOpenCampaignSites = () => {
-    selectedCandidatesData.forEach(candidate => {
+    selectedCandidatesData.forEach((candidate: any) => {
       window.open(candidate.site, '_blank');
     });
   };
@@ -82,7 +82,7 @@ export default function Confirm() {
               <Card className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Donation Allocation</h2>
                 <div className="space-y-4">
-                  {selectedCandidatesData.map((candidate, index) => {
+                  {selectedCandidatesData.map((candidate: any) => {
                     const score = computeScore(candidate, preferences);
                     return (
                       <div key={candidate.id} className="flex items-center justify-between p-4 border rounded-lg">
@@ -133,7 +133,7 @@ export default function Confirm() {
         ) : (
           // Single Strategy Layout
           <div className="space-y-6">
-            {selectedCandidatesData.map((candidate) => {
+            {selectedCandidatesData.map((candidate: any) => {
               const score = computeScore(candidate, preferences);
               return (
                 <motion.div

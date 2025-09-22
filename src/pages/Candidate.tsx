@@ -6,7 +6,7 @@ import { computeScore } from '../lib/scoring';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { ArrowLeft, ExternalLink, TrendingUp, DollarSign, Calendar, Target } from 'lucide-react';
+import { ArrowLeft, ExternalLink, TrendingUp, DollarSign } from 'lucide-react';
 import ScoreBadge from '../components/ScoreBadge';
 import IssuePills from '../components/IssuePills';
 import FundingBar from '../components/FundingBar';
@@ -24,7 +24,7 @@ export default function Candidate() {
     }
   });
 
-  const candidate = candidates.find(c => c.id === id);
+  const candidate = candidates.find((c: any) => c.id === id);
 
   if (isLoading) {
     return (
@@ -51,14 +51,14 @@ export default function Candidate() {
   }
 
   const score = computeScore(candidate, preferences);
-  const leverageColors = {
+  const leverageColors: Record<string, string> = {
     high: 'bg-red-100 text-red-800',
     'med-high': 'bg-orange-100 text-orange-800',
     medium: 'bg-yellow-100 text-yellow-800',
     low: 'bg-gray-100 text-gray-800'
   };
 
-  const competitivenessColors = {
+  const competitivenessColors: Record<string, string> = {
     tossup: 'bg-red-100 text-red-800',
     lean: 'bg-yellow-100 text-yellow-800',
     safe: 'bg-green-100 text-green-800'

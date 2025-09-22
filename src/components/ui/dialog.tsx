@@ -82,7 +82,6 @@ const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
     if (asChild) {
       return React.cloneElement(children as React.ReactElement, {
         ...props,
-        ref,
       });
     }
     return (

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { ExternalLink, DollarSign } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
 import ScoreBadge from './ScoreBadge';
 import IssuePills from './IssuePills';
 import FundingBar from './FundingBar';
@@ -36,14 +36,14 @@ interface CandidateCardProps {
 }
 
 export default function CandidateCard({ candidate, onDonate, onViewDetails }: CandidateCardProps) {
-  const leverageColors = {
+  const leverageColors: Record<string, string> = {
     high: 'bg-red-100 text-red-800',
     'med-high': 'bg-orange-100 text-orange-800',
     medium: 'bg-yellow-100 text-yellow-800',
     low: 'bg-gray-100 text-gray-800'
   };
 
-  const competitivenessColors = {
+  const competitivenessColors: Record<string, string> = {
     tossup: 'bg-red-100 text-red-800',
     lean: 'bg-yellow-100 text-yellow-800',
     safe: 'bg-green-100 text-green-800'
