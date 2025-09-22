@@ -1,79 +1,151 @@
-# ScaleTilt
+# ScaleTilt - Political Impact Platform
 
-A modern political donation platform that helps users find the most impactful candidates for their political donations based on data-driven analysis and their personal priorities.
+**Author:** Josh Mysore  
+**GitHub:** [joshmysore](https://github.com/joshmysore)  
+**Deployed URL:** [https://joshmysore-hw3.vercel.app/](https://joshmysore-hw3.vercel.app/)  
+**PRD:** [https://docs.google.com/document/d/1LuXaY7-YyPrfJNfPVoD9s4Ox4pb53fYR5b27jn38li8/edit?usp=sharing](https://docs.google.com/document/d/1LuXaY7-YyPrfJNfPVoD9s4Ox4pb53fYR5b27jn38li8/edit?usp=sharing)
 
-**Developer:** Josh Mysore  
-**GitHub:** [cs1060f25](https://github.com/cs1060f25)  
-**Deployed URL:** [Your Vercel URL here]  
-**PRD:** [Product Requirements Document URL here]
+## Overview
+
+ScaleTilt is a data-driven political donation platform that helps individual donors maximize their political impact by providing strategic insights and candidate matching based on their priorities and preferences.
 
 ## Features
 
-- **Modern Homepage**: Hero section with animated demo simulation and clear value proposition
-- **About Page**: Comprehensive explanation of the problem, solution, and our goals
-- **Interactive Demo**: 3-step wizard for selecting issues, impact preferences, and donation strategy
-- **Smart Scoring**: Dynamic algorithm that adjusts weights based on user preferences
-- **Candidate Details**: Comprehensive profiles with polling data, funding information, and district analysis
-- **Donation Confirmation**: Support for both single high-impact and spread strategies
-- **Responsive Design**: Mobile-first design with desktop enhancements
-- **Smooth Animations**: Framer Motion animations throughout the user experience
+- **3-Step Wizard**: Issues selection, impact preferences, and donation strategy
+- **Smart Candidate Matching**: AI-powered algorithm with transparent scoring
+- **Dynamic Scoring**: Adjustable weights based on user preferences (close races, track record, infrastructure)
+- **Interactive Demo**: Auto-playing simulation showcasing the platform
+- **Responsive Design**: Modern American-themed UI with smooth animations
+- **Real-time Results**: Live candidate ranking and detailed analysis
 
-## Getting Started
+## Tech Stack
+
+- **Frontend:** React 19 + TypeScript + Vite
+- **Styling:** TailwindCSS with custom American color palette
+- **State Management:** Zustand with localStorage persistence
+- **Data Fetching:** TanStack Query
+- **Animations:** Framer Motion
+- **UI Components:** Shadcn/ui + Lucide React icons
+- **Deployment:** Vercel
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
 
 ### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/cs1060f25/joshmysore-hw3.git
+cd joshmysore-hw3
+
+# Install dependencies
 npm install
-```
 
-### Development
-
-```bash
+# Start development server
 npm run dev
 ```
 
-### Build
+### Build & Deploy
 
 ```bash
+# Build for production
 npm run build
+
+# Preview production build
+npm run preview
 ```
 
-The build output will be in the `dist/` directory, ready for deployment on Vercel.
-
-## Tech Stack
-
-- **Vite** - Build tool and dev server
-- **React** - UI library with TypeScript
-- **React Router** - Client-side routing
-- **TanStack Query** - Data fetching and caching
-- **Zustand** - State management with persistence
-- **Framer Motion** - Smooth animations
-- **TailwindCSS** - Utility-first styling
-- **Lucide React** - Icon library
+The app will be available at `http://localhost:5173` in development mode.
 
 ## Project Structure
 
 ```
 src/
 ├── components/          # Reusable UI components
-│   ├── ui/             # Basic UI components (Button, Card, etc.)
-│   ├── Banner.tsx      # Fixed prototype notice
-│   ├── CandidateCard.tsx
-│   ├── ScoreBadge.tsx
+│   ├── ui/             # Shadcn/ui components
+│   ├── Banner.tsx      # Disclaimer banner
+│   ├── Navbar.tsx      # Navigation bar
+│   ├── DemoSimulator.tsx # Homepage demo
 │   └── ...
 ├── pages/              # Route components
-│   ├── Home.tsx        # Landing page with wizard
-│   ├── Results.tsx     # Candidate results grid
-│   ├── Candidate.tsx   # Individual candidate details
+│   ├── HomePage.tsx    # Landing page
+│   ├── AboutPage.tsx   # About section
+│   ├── Home.tsx        # Demo wizard
+│   ├── Results.tsx     # Candidate results
+│   ├── Candidate.tsx   # Candidate details
 │   └── Confirm.tsx     # Donation confirmation
-├── lib/                # Utilities and logic
+├── lib/                # Utilities and state
 │   ├── store.ts        # Zustand store
-│   ├── scoring.ts      # Candidate scoring algorithm
-│   └── utils.ts        # Helper functions
+│   └── scoring.ts      # Candidate scoring algorithm
 └── data/               # Static data
     └── candidates.json # Synthetic candidate data
 ```
 
-## Disclaimer
+## User Flow
 
-This is a prototype application using synthetic data. It is not affiliated with any real political committee or organization. All candidate information, polling data, and financial figures are fictional and used for demonstration purposes only.
+1. **Homepage**: View demo simulation and learn about ScaleTilt
+2. **About**: Read problem statement and platform goals
+3. **Demo Wizard**: 
+   - Step 1: Select political issues (multi-select)
+   - Step 2: Choose impact preference (single-select)
+   - Step 3: Pick donation strategy (single-select)
+4. **Results**: View ranked candidates with detailed analysis
+5. **Candidate Details**: Deep dive into individual candidate profiles
+6. **Confirmation**: Review and confirm donation decisions
+
+## Scoring Algorithm
+
+The platform uses a transparent scoring system that weights candidates based on:
+
+- **Competitiveness** (35%): Race tightness (tossup, lean, safe)
+- **Funding Gap** (35%): Relative funding advantage/disadvantage
+- **Time Decay** (15%): Proximity to election day
+- **Issue Match** (15%): Alignment with user's selected issues
+
+Weights adjust dynamically based on user's impact preference:
+- **Close Races**: Higher competitiveness weight
+- **Track Record**: Higher issue match weight  
+- **Infrastructure**: Higher time decay weight
+
+## Data
+
+The platform uses synthetic candidate data for demonstration purposes. All data is fictional and created for prototype testing.
+
+**Disclaimer:** This is a prototype with synthetic data and is not affiliated with any political committee.
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+### Key Dependencies
+
+- `react` - UI framework
+- `typescript` - Type safety
+- `tailwindcss` - Styling
+- `framer-motion` - Animations
+- `zustand` - State management
+- `@tanstack/react-query` - Data fetching
+- `react-router-dom` - Routing
+
+## Deployment
+
+The application is automatically deployed to Vercel on every push to the main branch.
+
+**Production URL:** [https://joshmysore-hw3.vercel.app/](https://joshmysore-hw3.vercel.app/)
+
+## License
+
+This project is created for educational purposes as part of CS106 coursework.
+
+---
+
+**Note:** This is a prototype demonstration. All candidate data is synthetic and created for testing purposes only.
